@@ -7,23 +7,27 @@ const userSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        birthDate: {
+            type: Date,
+            default: null
+        },
         handle: {// nome utente pubblico tutto minuscolo, niente spazi, unico per ogni utente
             type: String,
             required: true,
-            unique: true,
+            unique: true,//non possono esistere 2 utenti con lo stesso handle 
             trim: true,
-            lowercase: true
+            lowercase: true//salva sempre in minuscolo 
         },
         email: {
             type: String,
-            required: true,
+            required: true,//non possono esistere 2 utenti con la stesso email
             unique: true,
             trim: true,
             lowercase: true
         },
         password: {
             type: String,
-            default: null
+            default: null//può essere null perché chi usa Google non ha password
         },
         googleId: {
             type: String,
@@ -49,10 +53,14 @@ const userSchema = new mongoose.Schema(
         isRedazione: {
             type: Boolean,
             default: false
+        },
+        isBlocked: {
+            type: Boolean,
+            default: false
         }
     },
     {
-        timestamps: true
+        timestamps: true//aggiunge automaticamente createdAt e updatedAt
     }
 )
 

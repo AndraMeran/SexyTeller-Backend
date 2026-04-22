@@ -20,7 +20,8 @@
     "mongoose": "^9.5.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "resend": "^6.12.2"
+    "resend": "^6.12.2",
+    "slugify": "^1.6.9"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

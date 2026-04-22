@@ -3,8 +3,9 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import passport from 'passport'
 import connectDB from './config/db.js'
-import googleStrategy from './config/passport.js'
+import googleStrategy from './config/googleStrategy.js'
 import authRoutes from './routes/auth.routes.js'
+
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.use('/api/auth', authRoutes)
 app.get('/', (req, res) => {
     res.json({ message: 'SexyTeller API is running' })
 })
+
 
 const PORT = process.env.PORT || 5000
 

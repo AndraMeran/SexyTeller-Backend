@@ -9,12 +9,11 @@ const articleSchema = new mongoose.Schema(
         },
         slug: {//è l'URL dell'articolo Lo genereremo automaticamente dal titolo
             type: String,
-            required: true,
             unique: true,
             trim: true,
             lowercase: true
         },
-        category: {
+        category: {//può essere solo una di queste 6 vategorie 
             type: String,
             required: true,
             enum: ['stories', 'decode', 'crossover', 'trends', 'darkside', 'voices']
@@ -31,9 +30,9 @@ const articleSchema = new mongoose.Schema(
         //     type: String,
         //     default: ''
         // },
-        author: {// non salviamo il nome dell'autore, ma il suo ID nel database. Con ref: 'User' diciamo a Mongoose che quell'ID si riferisce al modello User
+        author: {// non salviamo il nome dell'autore, ma il suo ID nel database.
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'User', //diciamo a Mongoose che quell'ID si riferisce al modello User
             required: true
         },
         isRedazione: {
@@ -44,13 +43,22 @@ const articleSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        readTime: {
+        readTime: {//minuti di lettura, lo calcoleremo automaticamente
             type: Number,
             default: 0
+        },
+        isSensitive: {
+            type: Boolean,
+            default: false
+        },
+        contentTag: {
+            type: String,
+            enum: ['educativo', 'narrativo', 'opinione', ''],
+            default: ''
         }
     },
     {
-        timestamps: true
+        timestamps: true//aggiunge automaticamente createdAt e updatedAt
     }
 )
 
