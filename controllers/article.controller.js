@@ -1,5 +1,4 @@
 import Article from '../models/Article.js'
-import slugify from 'slugify' //è una libreria che trasforma un titolo in un URL leggibile.
 import User from '../models/User.js'
 
 const calcReadTime = (text) => {//funzione per calcolare il tempo di lettura dell'articolo
@@ -61,11 +60,10 @@ export async function createArticle(req, res) {//risponde a POST /api/articles. 
 
         const article = await Article.create({//creo l'articolo con tutit idati 
             title,
-            slug,
             category,
             body,
             coverImage,
-            videoUrl,
+            // videoUrl,
             author: req.user._id,
             isRedazione: req.user.isRedazione,
             readTime: calcReadTime(body)
@@ -98,7 +96,6 @@ export async function updateArticle(req, res) {//risponde a PUT /api/articles/:i
         }
 
         if (title) article.title = title
-        if (title) article.slug = slugify(title, { lower: true, strict: true })
         if (category) article.category = category
         if (body) {
             article.body = body

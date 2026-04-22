@@ -7,12 +7,6 @@ const articleSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
-        slug: {//è l'URL dell'articolo Lo genereremo automaticamente dal titolo
-            type: String,
-            unique: true,
-            trim: true,
-            lowercase: true
-        },
         category: {//può essere solo una di queste 6 vategorie 
             type: String,
             required: true,
@@ -35,7 +29,7 @@ const articleSchema = new mongoose.Schema(
             ref: 'User', //diciamo a Mongoose che quell'ID si riferisce al modello User
             required: true
         },
-        isRedazione: {
+        isRedazione: { // true = articolo scritto dalla redazione, false = articolo di un utente
             type: Boolean,
             default: false
         },
@@ -47,11 +41,11 @@ const articleSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
-        isSensitive: {
+        isSensitive: { // true = contiene elementi sensibili, visibile solo agli utenti loggati e maggiorenni
             type: Boolean,
             default: false
         },
-        contentTag: {
+        contentTag: {  // tag che descrive il tipo di contenuto — aiuta a orientare la pubblicazione
             type: String,
             enum: ['educativo', 'narrativo', 'opinione', ''],
             default: ''

@@ -50,11 +50,11 @@ const userSchema = new mongoose.Schema(
             enum: ['nuovo', 'attivo', 'in_evidenza'],//il badge può essere solo uno di questi tre valori
             default: 'nuovo'
         },
-        isRedazione: {
+        isRedazione: {// true = membro redazione con accesso admin, false = utente normale
             type: Boolean,
             default: false
         },
-        isBlocked: {
+        isBlocked: {// true = utente bloccato, non può accedere alla piattaforma
             type: Boolean,
             default: false
         }
