@@ -14,6 +14,6 @@ const router = express.Router({ mergeParams: true })
 router.get('/', getCommentsByArticle) // GET commenti di un articolo — pubblico
 router.post('/', protect, createComment) // POST crea commento — privato
 router.delete('/:id', protect, deleteComment) // DELETE elimina commento — privato
-router.post('/like', protect, handleLike) // POST metti/togli like — privato
+router.post('/:id/like', protect, handleLike) // POST metti/togli like commento — privato
 
 export default router

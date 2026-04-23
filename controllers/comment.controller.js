@@ -62,27 +62,27 @@ export async function deleteComment(req, res) {
 
 export async function handleLike(req, res) {
     try {
-        const article = await Article.findById(req.params.articleId)
+        const comment = await Comment.findById(req.params.id)
 
-        if (!article) {
-            return res.status(404).json({ message: 'Articolo non trovato' })
+        if (!comment) {
+            return res.status(404).json({ message: 'Commento non trovato' })
         }
 
         const userId = req.user._id
-        const alreadyLiked = article.likes.includes(userId)
+        const alreadyLiked = comment.likes.includes(userId)
 
         if (alreadyLiked) {
             // se ha già messo like lo toglie
-            article.likes = article.likes.filter(id => id.toString() !== userId.toString())
+            comment.likes = comment.likes.filter(id => id.toString() !== userId.toString())
         } else {
             // se non ha ancora messo like lo aggiunge
-            article.likes.push(userId)
+            comment.likes.push(userId)
         }
 
-        await article.save()
+        await comment.save()
 
         return res.status(200).json({
-            likes: article.likes.length, // numero totale di like
+            likes: comment.likes.length, // numero totale di like al commento
             liked: !alreadyLiked // true se ha appena messo like, false se lo ha tolto
         })
 

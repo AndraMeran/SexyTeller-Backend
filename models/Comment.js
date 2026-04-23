@@ -16,6 +16,11 @@ const commentSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Article', // riferimento all'articolo a cui appartiene il commento
             required: true
+        },
+        likes: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User', // array di ID utenti che hanno messo like al commento
+            default: [] // di default nessun like
         }
     },
     {

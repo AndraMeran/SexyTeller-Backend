@@ -168,3 +168,35 @@ export async function searchArticles(req, res) {//isponde a GET /api/articles/se
         return res.status(500).json({ message: error.message })
     }
 }
+
+
+export async function handleLike(req, res) {
+    try {
+        const article = await Article.findById(req.params.id)
+
+        if (!article) {
+            return res.status(404).json({ message: 'Articolo non trovato' })
+        }
+
+        const userId = req.user._id
+        const alreadyLiked = article.likes.includes(userId)
+
+        if (alreadyLiked) {
+            // se ha già messo like lo toglie
+            article.likes = article.likes.filter(id => id.toString() !== userId.toString())
+        } else {
+            // se non ha ancora messo like lo aggiunge
+            article.likes.push(userId)
+        }
+
+        await article.save()
+
+        return res.status(200).json({
+            likes: article.likes.length, // numero totale di like all'articolo
+            liked: !alreadyLiked // true se ha appena messo like, false se lo ha tolto
+        })
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
