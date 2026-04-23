@@ -41,6 +41,11 @@ const articleSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        likes: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User', // array di ID utenti che hanno messo like
+            default: [] // di default nessun like
+        },
         isSensitive: { // true = contiene elementi sensibili, visibile solo agli utenti loggati e maggiorenni
             type: Boolean,
             default: false

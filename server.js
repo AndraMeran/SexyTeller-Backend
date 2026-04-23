@@ -5,7 +5,8 @@ import passport from 'passport'
 import connectDB from './config/db.js'
 import googleStrategy from './config/googleStrategy.js'
 import authRoutes from './routes/auth.routes.js'
-
+import articleRoutes from './routes/article.routes.js'
+import commentRoutes from './routes/comment.routes.js'
 
 dotenv.config()
 
@@ -20,11 +21,12 @@ app.use(express.json())
 app.use(passport.initialize())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/articles', articleRoutes)
+app.use('/api/articles/:articleId/comments', commentRoutes)
 
 app.get('/', (req, res) => {
-    res.json({ message: 'SexyTeller API is running' })
+    res.json({ message: 'SexyTeller API is running 🚀' })
 })
-
 
 const PORT = process.env.PORT || 5000
 
