@@ -118,3 +118,19 @@ export async function toggleFeatured(req, res) {//metti o togli un articolo in e
         return res.status(500).json({ message: error.message })
     }
 }
+export async function deleteArticle(req, res) {//funzione per eliminare il singolo articolo di un utente
+    try {
+        const article = await Article.findById(req.params.id)
+
+        if (!article) {
+            return res.status(404).json({ message: 'Articolo non trovato' })
+        }
+
+        await Article.findByIdAndDelete(req.params.id)
+
+        return res.status(200).json({ message: 'Articolo eliminato dalla redazione' })
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}

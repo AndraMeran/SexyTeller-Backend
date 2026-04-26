@@ -6,7 +6,8 @@ import {
     blockUser,
     deleteUser,
     updateBadge,
-    toggleFeatured
+    toggleFeatured,
+    deleteArticle
 } from '../controllers/admin.controller.js'
 
 const router = express.Router()
@@ -19,5 +20,6 @@ router.put('/users/:id/block', protect, isAdmin, blockUser) // PUT blocca/sblocc
 router.delete('/users/:id', protect, isAdmin, deleteUser) // DELETE elimina utente
 router.put('/users/:id/badge', protect, isAdmin, updateBadge) // PUT assegna badge
 router.put('/articles/:id/feature', protect, isAdmin, toggleFeatured) // PUT metti/togli in evidenza
+router.delete('/articles/:id', protect, isAdmin, deleteArticle) // DELETE elimina articolo — solo redazione
 
 export default router
