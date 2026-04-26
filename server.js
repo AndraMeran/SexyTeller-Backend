@@ -9,6 +9,7 @@ import articleRoutes from './routes/article.routes.js'
 import commentRoutes from './routes/comment.routes.js'
 import userRoutes from './routes/user.routes.js'
 import adminRoutes from './routes/admin.routes.js'
+import uploadRoutes from './routes/upload.routes.js'
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.use('/api/articles', articleRoutes)
 app.use('/api/articles/:articleId/comments', commentRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/upload', uploadRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'SexyTeller API is running' })
