@@ -9,9 +9,12 @@ const calcReadTime = (text) => {//funzione per calcolare il tempo di lettura del
 
 export async function getAllArticles(req, res) {// risponde a GET /api/articles e prende tutti gli articoli dal database. 
     try {
-        const { category } = req.query
+        const { category, isRedazione } = req.query
 
-        const filter = category ? { category } : {}
+        const filter = {}
+
+        if (category) filter.category = category
+        if (isRedazione) filter.isRedazione = isRedazione === 'true'
 
         const articles = await Article.find(filter)//Se nell'URL c'è ?category=stories filtra solo quelli di quella categoria. Usa .populate() per sostituire l'ID dell'autore con i suoi dati reali (nome, handle, avatar, badge).
             .populate('author', 'name handle avatar badge isRedazione')
