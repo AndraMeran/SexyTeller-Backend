@@ -7,6 +7,11 @@ const articleSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        subtitle: { // sottotitolo opzionale — appare sotto il titolo nell'articolo
+            type: String,
+            default: '',
+            trim: true
+        },
         category: {//può essere solo una di queste 6 vategorie 
             type: String,
             required: true,

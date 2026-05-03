@@ -7,7 +7,9 @@ import {
     deleteUser,
     updateBadge,
     toggleFeatured,
-    deleteArticle
+    deleteArticle,
+    getAllComments,
+    deleteComment
 } from '../controllers/admin.controller.js'
 
 const router = express.Router()
@@ -21,5 +23,7 @@ router.delete('/users/:id', protect, isAdmin, deleteUser) // DELETE elimina uten
 router.put('/users/:id/badge', protect, isAdmin, updateBadge) // PUT assegna badge
 router.put('/articles/:id/feature', protect, isAdmin, toggleFeatured) // PUT metti/togli in evidenza
 router.delete('/articles/:id', protect, isAdmin, deleteArticle) // DELETE elimina articolo — solo redazione
+router.get('/comments', protect, isAdmin, getAllComments) // GET tutti i commenti
+router.delete('/comments/:id', protect, isAdmin, deleteComment) // DELETE elimina commento
 
 export default router

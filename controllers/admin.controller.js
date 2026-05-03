@@ -2,6 +2,7 @@ import User from '../models/User.js'
 import Article from '../models/Article.js'
 import Comment from '../models/Comment.js'
 
+
 export async function getAllUsers(req, res) {
     try {
         const users = await User.find()
@@ -130,6 +131,33 @@ export async function deleteArticle(req, res) {//funzione per eliminare il singo
 
         return res.status(200).json({ message: 'Articolo eliminato dalla redazione' })
 
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+// prende tutti i commenti di tutti gli articoli
+export async function getAllComments(req, res) {
+    try {
+        // popola author (nome, handle) e article (title) per avere info utili
+        const comments = await Comment.find()
+            .populate('author', 'name handle')
+            .populate('article', 'title')
+            .sort({ createdAt: -1 }) // più recenti prima
+        return res.status(200).json(comments)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+// elimina un commento — solo redazione
+export async function deleteComment(req, res) {
+    try {
+        const comment = await Comment.findById(req.params.id)
+        if (!comment) {
+            return res.status(404).json({ message: 'Commento non trovato' })
+        }
+        await comment.deleteOne()
+        return res.status(200).json({ message: 'Commento eliminato' })
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }

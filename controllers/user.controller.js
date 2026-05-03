@@ -1,6 +1,16 @@
 import User from '../models/User.js'
 import Article from '../models/Article.js'
 import Comment from '../models/Comment.js'
+import jwt from 'jsonwebtoken'
+
+// funzione locale per generare il token — stessa logica di auth.controller.js
+const generateToken = (id, isRedazione, name, handle) => {
+    return jwt.sign(
+        { id, isRedazione, name, handle },
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' }
+    )
+}
 
 export async function getUserByHandle(req, res) {
     try {
@@ -40,7 +50,6 @@ export async function getUserArticles(req, res) {
 export async function updateProfile(req, res) {
     try {
         const { name, bio, avatar, cover } = req.body
-        // handle rimosso — non si può modificare
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,
@@ -48,7 +57,15 @@ export async function updateProfile(req, res) {
             { new: true, runValidators: true }
         ).select('-password -googleId')
 
-        return res.status(200).json(updatedUser)
+        // genera un nuovo token con i dati aggiornati
+        const token = generateToken(
+            updatedUser._id,
+            updatedUser.isRedazione,
+            updatedUser.name,
+            updatedUser.handle
+        )
+
+        return res.status(200).json({ user: updatedUser, token })
 
     } catch (error) {
         return res.status(500).json({ message: error.message })
