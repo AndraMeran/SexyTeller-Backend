@@ -90,3 +90,23 @@ export async function deleteAccount(req, res) {//funzione per eliminare attenzio
         return res.status(500).json({ message: error.message })
     }
 }
+export async function searchUsers(req, res) {
+    try {
+        const search = req.query.q || ""
+
+        const users = await User.find({
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { handle: { $regex: search, $options: "i" } },
+                { bio: { $regex: search, $options: "i" } }
+            ]
+        })
+            .select('-password -googleId')
+            .limit(10)
+
+        return res.status(200).json(users)
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
