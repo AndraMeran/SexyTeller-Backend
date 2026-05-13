@@ -4,9 +4,9 @@ import Comment from '../models/Comment.js'
 import jwt from 'jsonwebtoken'
 
 // funzione locale per generare il token — stessa logica di auth.controller.js
-const generateToken = (id, isRedazione, name, handle) => {
+const generateToken = (id, isRedazione, name, handle, avatar, cover) => {
     return jwt.sign(
-        { id, isRedazione, name, handle },
+        { id, isRedazione, name, handle, avatar, cover },
         process.env.JWT_SECRET,
         { expiresIn: '30d' }
     )
@@ -14,8 +14,8 @@ const generateToken = (id, isRedazione, name, handle) => {
 
 export async function getUserByHandle(req, res) {
     try {
-        const user = await User.findOne({ handle: req.params.handle })//cerchamo l'utente per handle
-            .select('-password -googleId') // non mandiamo mai la password e il googleId
+        const user = await User.findOne({ handle: req.params.handle })
+            .select('-password -googleId')
 
         if (!user) {
             return res.status(404).json({ message: 'Utente non trovato' })
@@ -30,13 +30,13 @@ export async function getUserByHandle(req, res) {
 
 export async function getUserArticles(req, res) {
     try {
-        const user = await User.findOne({ handle: req.params.handle })//anche qui prima cerca l'utente sempre per handle
+        const user = await User.findOne({ handle: req.params.handle })
 
         if (!user) {
             return res.status(404).json({ message: 'Utente non trovato' })
         }
 
-        const articles = await Article.find({ author: user._id })//cerca tutti gli articoli corrispondenti al Id dell'utente
+        const articles = await Article.find({ author: user._id })
             .populate('author', 'name handle avatar badge isRedazione')
             .sort({ createdAt: -1 })
 
@@ -54,15 +54,17 @@ export async function updateProfile(req, res) {
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,
             { name, bio, avatar, cover },
-            { new: true, runValidators: true }
+            { returnDocument: 'after', runValidators: true }
         ).select('-password -googleId')
 
-        // genera un nuovo token con i dati aggiornati
+        // genera un nuovo token con i dati aggiornati — inclusi avatar e cover
         const token = generateToken(
             updatedUser._id,
             updatedUser.isRedazione,
             updatedUser.name,
-            updatedUser.handle
+            updatedUser.handle,
+            updatedUser.avatar,
+            updatedUser.cover // ← aggiunto
         )
 
         return res.status(200).json({ user: updatedUser, token })
@@ -72,16 +74,10 @@ export async function updateProfile(req, res) {
     }
 }
 
-
-export async function deleteAccount(req, res) {//funzione per eliminare attenzione all'ordine---se eliminassimo prima l'utente rimarrebbero articoli e commenti "orfani" nel database senza autore.
+export async function deleteAccount(req, res) {
     try {
-        // elimina tutti gli articoli dell'utente
         await Article.deleteMany({ author: req.user._id })
-
-        // elimina tutti i commenti dell'utente
         await Comment.deleteMany({ author: req.user._id })
-
-        // elimina l'utente
         await User.findByIdAndDelete(req.user._id)
 
         return res.status(200).json({ message: 'Account eliminato con successo' })
@@ -90,6 +86,7 @@ export async function deleteAccount(req, res) {//funzione per eliminare attenzio
         return res.status(500).json({ message: error.message })
     }
 }
+
 export async function searchUsers(req, res) {
     try {
         const search = req.query.q || ""
