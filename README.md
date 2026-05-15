@@ -1,12 +1,16 @@
 # SexyTeller — Backend
 
- **Repository Frontend:**  https://github.com/AndraMeran/SexyTeller-Frontend
+ > **Repository Frontend:**  https://github.com/AndraMeran/SexyTeller-Frontend
+ > **Link Render:** https://sexyteller-backend.onrender.com
 
 ## Descrizione
 
-**SexyTeller** è una piattaforma editoriale dedicata alla cultura della sessualità — un luogo dove giornalisti, scrittori e voci della community possono raccontare, analizzare e approfondire temi legati al sesso, al desiderio e all'identità, con rigore culturale e senza tabù.
+SexyTeller è una piattaforma social editoriale contemporanea che esplora sessualità, erotismo e pornografia trattati con un approccio serio, narrativo e moderno, attraverso narrazione, analisi e cultura pop. 
+Il progetto unisce la struttura di un magazine digitale all’interazione di un social, creando uno spazio dove gli utenti non pubblicano semplicemente contenuti, ma vengono guidati nel modo in cui raccontarli.  
 
-Il progetto nasce come capstone finale del corso di sviluppo web e rappresenta un'applicazione completa con autenticazione, pannello amministrativo, editor di contenuti e sistema di ricerca globale.
+SexyTeller non divide i contenuti per argomento, ma per approccio editoriale e stile narrativo: raccontare, analizzare, collegare, approfondire o dare voce a esperienze e punti di vista diversi.  
+
+L’obiettivo è costruire un ecosistema capace di trasformare temi spesso trattati superficialmente in contenuti con identità, profondità e valore narrativo e culturale.
 
 I contenuti sono organizzati in 6 categorie basate sul modo di raccontare — non sull'argomento:
 
@@ -142,6 +146,7 @@ Il server sarà disponibile su `http://localhost:5000`
 | Campo | Tipo | Note |
 |-------|------|------|
 | title | String | required |
+| subtitle | String | Sottotitolo opzionale — appare sotto il titolo |
 | category | String | stories/decode/crossover/trends/darkside/voices |
 | body | String | Testo + immagini embedded |
 | coverImage | String | URL Cloudinary |
@@ -237,16 +242,10 @@ Il server sarà disponibile su `http://localhost:5000`
 ## Deploy
 
 Il backend è deployato su **Render**.
+> https://sexyteller-backend.onrender.com
 
 In produzione aggiornare:
 - `GOOGLE_CALLBACK_URL` → `https://sexyteller-api.onrender.com/api/auth/google/callback`
 - CORS origin → `https://sexyteller.vercel.app`
 
 
-## Frontend
-
-Il repository del frontend è disponibile su: https://github.com/AndraMeran/SexyTeller-Frontend
-
----
-
-*SexyTeller — In un mondo che guarda, noi raccontiamo.*
