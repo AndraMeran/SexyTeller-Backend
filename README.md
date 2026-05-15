@@ -96,7 +96,7 @@ Compila le variabili nel file `.env`:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://utente:password@cluster.mongodb.net/sexyteller
+MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=il_tuo_jwt_secret
 RESEND_API_KEY=la_tua_api_key_resend
 GOOGLE_CLIENT_ID=il_tuo_google_client_id
