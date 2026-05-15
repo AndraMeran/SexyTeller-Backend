@@ -59,10 +59,11 @@ export async function getArticleById(req, res) {
 
 export async function createArticle(req, res) {//risponde a POST /api/articles. Crea un nuovo articolo.
     try {
-        const { title, category, body, coverImage, videoUrl } = req.body //prendiamo i dati dal frontend
+        const { title, subtitle, category, body, coverImage, videoUrl } = req.body //prendiamo i dati dal frontend
 
         const article = await Article.create({//creo l'articolo con tutit idati 
             title,
+            subtitle,
             category,
             body,
             coverImage,
@@ -106,6 +107,8 @@ export async function updateArticle(req, res) {//risponde a PUT /api/articles/:i
         }
         if (coverImage) article.coverImage = coverImage
         if (videoUrl) article.videoUrl = videoUrl
+        if (typeof req.body.isFeatured === 'boolean') article.isFeatured = req.body.isFeatured
+        if (req.body.subtitle !== undefined) article.subtitle = req.body.subtitle
 
         const updated = await article.save()
 
